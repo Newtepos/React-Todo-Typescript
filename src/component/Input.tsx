@@ -14,6 +14,7 @@ export const Input: React.FC<Props> = ({ todo, setTodo, submitHandler }: Props) 
         placeholder="please add todo"
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
+        className="text-black"
       ></input>
       <button type="submit">Enter</button>
     </form>
