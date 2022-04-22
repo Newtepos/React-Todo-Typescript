@@ -2,50 +2,53 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Input } from "./component/Input";
 import useRequest from "./api/request";
-import { loadedData } from "./model/todo";
 import TodoLists from "./component/TodoLists";
+import { loadedData } from "./model/todo";
 
 function App() {
   const [todo, setTodo] = useState<string>("");
-  const [todos, setTodos] = useState<loadedData[] | undefined>([]);
   const { sendRequest, jsonData } = useRequest();
 
-  const submitHandler = (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    sendRequest({ method: "POST", todo: todo });
+    await sendRequest({ method: "POST", todo: todo });
+    await sendRequest({method: "GET"});
     setTodo("");
   };
 
-  const displayDataHandler = (e: React.MouseEvent) => {
-    e.preventDefault();
-    console.log(jsonData);
+  const deleteHandler = async (id: string) => {
+    console.log("Deleteing")
+    await sendRequest({ method: "DELETE", id: id });
+    await sendRequest({method: "GET"});
   };
-
-  const deleteHandler = (id: string) => {
-    sendRequest({ method: "DELETE", id: id });
-  };
-
+  
+  const patchHandler = async (id: string, todo: string) => {
+    await sendRequest({method: "PATCH", id: id, todo: todo});
+    await sendRequest({method: "GET"});
+  }
+  
   useEffect(() => {
-    sendRequest({ method: "GET" });
-    setTodos(jsonData);
-  }, [jsonData]);
+    sendRequest({method: "GET"});
+  }, []);
+
+  console.log("Render");
 
   return (
     <div className="container mx-auto">
       <div className="flex flex-col items-center justify-start min-h-screen text-center text-white bg-black">
         <h1>Todos App</h1>
-        <button
+        {/* <button
           onClick={displayDataHandler}
           className="max-w-xs p-5 m-3 bg-gray-800 shadow-md shadow-white rounded-xl hover:bg-red-500"
         >
           Display Data
-        </button>
+        </button> */}
         <Input
           todo={todo}
           setTodo={setTodo}
           submitHandler={submitHandler}
         ></Input>
-        <TodoLists todoList={todos} deleteTodoHandler={deleteHandler}></TodoLists>
+        <TodoLists todoList={jsonData} deleteTodoHandler={deleteHandler} patchTodoHandler={patchHandler}></TodoLists>
       </div>
     </div>
   );
