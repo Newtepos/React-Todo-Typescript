@@ -1,54 +1,54 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Input } from "./component/Input";
-import useRequest from "./api/request";
 import TodoLists from "./component/TodoLists";
-import { loadedData } from "./model/todo";
+import {insertData,readData,deleteData, updateData} from './initFirebase';
+
 
 function App() {
+  
   const [todo, setTodo] = useState<string>("");
-  const { sendRequest, jsonData } = useRequest();
 
-  const submitHandler = async (e: React.FormEvent) => {
+  const [todos,setTodos] = useState<any>([])
+
+  useEffect(()=>{
+    readData((snapshot)=>{
+        const arr = []
+        for(let key in snapshot){
+          arr.push({id:key, ...snapshot[key]})
+        }
+        setTodos(arr);     
+        
+  })},[])
+  
+  const submitHandler = (e:React.FormEvent)=>{
     e.preventDefault();
-    await sendRequest({ method: "POST", todo: todo });
-    await sendRequest({method: "GET"});
-    setTodo("");
-  };
+    const response = insertData(todo);
+    console.log(response)
+  }
 
   const deleteHandler = async (id: string) => {
-    console.log("Deleteing")
-    await sendRequest({ method: "DELETE", id: id });
-    await sendRequest({method: "GET"});
+    deleteData(id);
   };
-  
-  const patchHandler = async (id: string, todo: string) => {
-    await sendRequest({method: "PATCH", id: id, todo: todo});
-    await sendRequest({method: "GET"});
-  }
-  
-  useEffect(() => {
-    sendRequest({method: "GET"});
-  }, []);
 
-  console.log("Render");
+  const patchHandler = async (id: string, todo: string) => {
+    updateData(id, todo);
+  };
 
   return (
     <div className="container mx-auto">
       <div className="flex flex-col items-center justify-start min-h-screen text-center text-white bg-black">
         <h1>Todos App</h1>
-        {/* <button
-          onClick={displayDataHandler}
-          className="max-w-xs p-5 m-3 bg-gray-800 shadow-md shadow-white rounded-xl hover:bg-red-500"
-        >
-          Display Data
-        </button> */}
         <Input
           todo={todo}
           setTodo={setTodo}
           submitHandler={submitHandler}
         ></Input>
-        <TodoLists todoList={jsonData} deleteTodoHandler={deleteHandler} patchTodoHandler={patchHandler}></TodoLists>
+        <TodoLists
+          todoList={todos}
+          deleteTodoHandler={deleteHandler}
+          patchTodoHandler={patchHandler}
+        ></TodoLists>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ const TodoLists = (props: Props): JSX.Element => {
 
 
     if(props.todoList) {
-        return <ul>{props.todoList.map((item) => (
+        return <ul className="mt-5 bg-gray-600 rounded-md">{props.todoList.map((item) => (
             <Todo key={item.id} todo={item.todo} id={item.id} deleteTodoHandler={props.deleteTodoHandler} patchTodoHandler={props.patchTodoHandler}/>
         ))}</ul>
     }
