@@ -40,8 +40,8 @@ export const deleteData = (id:string)=>{
     remove(deleteRef);
 }
 
-export const updateData = (id: string, todo: string) => {
+export const updateData = (id: string, todo: string, status?: string) => {
     const todoref = ref(db, `todos/${id}`)
-    update(todoref, {todo});
+    update(todoref, {todo, status});
 }
 

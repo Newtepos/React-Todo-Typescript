@@ -32,8 +32,8 @@ function App() {
     deleteData(id);
   };
 
-  const patchHandler = async (id: string, todo: string) => {
-    updateData(id, todo);
+  const patchHandler = async (id: string, todo: string, status?: string) => {
+    updateData(id, todo, status);
   };
 
   return (
