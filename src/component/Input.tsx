@@ -19,12 +19,12 @@ export const Input: React.FC<Props> = ({ todo, setTodo, submitHandler }: Props) 
     <form onSubmit={createTodoHandler}>
       <input
         type="text"
-        placeholder="please add todo"
+        placeholder="Please Add Todo"
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
-        className="text-black"
+        className="px-5 text-black"
       ></input>
-      <button type="submit">Enter</button>
+      <button type="submit" className="px-5 mx-5 bg-blue-900 rounded-xl">Enter</button>
     </form>
   );
 };
