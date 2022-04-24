@@ -24,9 +24,9 @@ const analytics = getAnalytics(app);
 const db = getDatabase(app);
 const todosRef = ref(db,"todos");
 
-export const insertData = (todo:string)=>{
+export const insertData = (todo:string, status: string)=>{
     const newTodoRef = push(todosRef);
-    set(newTodoRef,{todo});
+    set(newTodoRef,{todo, status});
 }
 
 export const readData = (onFinish:(data:any)=>void)=>{
