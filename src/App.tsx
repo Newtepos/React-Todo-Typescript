@@ -32,7 +32,7 @@ function App() {
     deleteData(id);
   };
 
-  const patchHandler = async (id: string, todo: string, status?: string) => {
+  const patchHandler = async (id: string, todo?: string, status?: string) => {
     updateData(id, todo, status);
   };
 

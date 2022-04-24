@@ -6,7 +6,7 @@ import {useDrop} from 'react-dnd';
 interface Props {
   todoList: loadedData[] | undefined;
   deleteTodoHandler: (id: string) => void;
-  patchTodoHandler: (id: string, todo: string, status?: TodoType) => void;
+  patchTodoHandler: (id: string, todo?: string, status?: TodoType) => void;
 }
 
 const DoneTodoList = (props: Props): JSX.Element => {
@@ -14,7 +14,7 @@ const DoneTodoList = (props: Props): JSX.Element => {
     accept: "Card",
     drop: (item: any) => {
       // console.log(item);
-      props.patchTodoHandler(item.id, item.todo, "DONE" );
+      props.patchTodoHandler(item.id, undefined, "DONE");
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

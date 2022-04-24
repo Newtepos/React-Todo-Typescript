@@ -34,6 +34,7 @@ const Todo: React.FC<Props> = (props) => {
   const editTodoHandler = () => {
     props.patchTodoHandler(props.id, todoRef.current!.value, props.status);
     setIsEdit(false);
+
   };
 
   const EditComponent = (): JSX.Element => {
@@ -79,7 +80,7 @@ const Todo: React.FC<Props> = (props) => {
   };
 
   return (
-    <li ref={drag} className="box-border flex flex-row items-center justify-between h-auto p-3 mx-3 my-2 bg-gray-800 rounded-md w-72">
+    <li ref={drag} className="box-border flex flex-row items-center justify-between h-auto p-3 mx-3 my-2 bg-gray-800 rounded-md w-72" style={{opacity: isDragging ? 0.5: 1}}>
       {isEdit ? <EditComponent /> : <TodoRenderComponent />}
     </li>
   );
